@@ -1,4 +1,4 @@
-# Angular2 Tutorials
+# Angular2 Tutorial
 
 This repository contains the solutions to many small problems using Angular2.
 
@@ -8,4 +8,4 @@ Here is steps I will go through
 2. Create a branch and solve the problem
 3. Explain the solution to the issue
 
-> Tutorial uses Angular-CLI
+> This tutorial uses Angular-CLI
