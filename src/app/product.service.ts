@@ -5,4 +5,8 @@ export class ProductService {
 
   constructor() {}
 
+  getProducts(): Array<any> {
+    return [{name: "Apple"}, {name: "Orange"}];
+  }
+
 }

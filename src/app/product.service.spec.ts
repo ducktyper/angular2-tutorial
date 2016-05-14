@@ -14,4 +14,9 @@ describe('Product Service', () => {
       inject([ProductService], (service: ProductService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should return dummy data when getProjects() is called',
+      inject([ProductService], (service: ProductService) => {
+    expect(service.getProducts()).toEqual([{name: "Apple"}, {name: "Orange"}]);
+  }));
 });
