@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/Rx';
 
 import { Product } from './shared/product.model';
 
@@ -7,8 +9,10 @@ export class ProductService {
 
   constructor() {}
 
-  getProducts(): Array<Product> {
-    return [{name: "Apple"}, {name: "Orange"}];
+  getProducts(): Observable<Product[]> {
+    let products = [{name: "Apple"}, {name: "Orange"}];
+    // Create an Observable object which sends the products once.
+    return Observable.from([products]);
   }
 
 }
