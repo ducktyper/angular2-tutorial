@@ -5,10 +5,22 @@ import {
   it,
   inject
 } from '@angular/core/testing';
+import { provide } from '@angular/core';
+import { Observable } from 'rxjs/Observable'
+
 import { Angular2TutorialAppComponent } from '../app/angular2-tutorial.component';
 import { ProductService } from '../app/product.service';
+import { Product } from '../app/shared/product.model';
 
-beforeEachProviders(() => [Angular2TutorialAppComponent, ProductService]);
+class MockProductService {
+  getProducts(): Observable<Product[]> {
+    let products = [{name: "Apple"}, {name: "Orange"}];
+    return Observable.from([products]);
+  }
+}
+
+beforeEachProviders(() => [Angular2TutorialAppComponent,
+  provide(ProductService, {useClass: MockProductService})]);
 
 describe('App: Angular2Tutorial', () => {
   it('should create the app',

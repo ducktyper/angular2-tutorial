@@ -5,20 +5,39 @@ import {
   expect,
   inject
 } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { provide } from '@angular/core';
+import {
+  Http,
+  ConnectionBackend,
+  BaseRequestOptions,
+  Response,
+  ResponseOptions
+} from '@angular/http';
 import { ProductService } from './product.service';
 
 describe('Product Service', () => {
-  beforeEachProviders(() => [ProductService]);
+  beforeEachProviders(() => [ProductService,
+    BaseRequestOptions,
+    MockBackend,
+    provide(Http, {useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
+      return new Http(backend, defaultOptions);
+    }, deps: [MockBackend, BaseRequestOptions]}),
+  ]);
 
   it('should ...',
       inject([ProductService], (service: ProductService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should return dummy data when getProjects() is called',
-      inject([ProductService], (service: ProductService) => {
+  it('should return an Observable data when getProducts() is called',
+      inject([ProductService, Http, MockBackend], (service: ProductService, http, backend) => {
+    let products = [{name: "Apple"}, {name: "Orange"}];
+    backend.connections.subscribe(c => c.mockRespond(new Response(new ResponseOptions(
+      {body: JSON.stringify(products)}
+    ))));
     service.getProducts().subscribe(products =>
-      expect(products).toEqual([{name: "Apple"}, {name: "Orange"}])
+      expect(products).toEqual(products)
     );
   }));
 });
