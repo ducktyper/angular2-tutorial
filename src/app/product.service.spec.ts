@@ -34,10 +34,19 @@ describe('Product Service', () => {
       inject([ProductService, Http, MockBackend], (service: ProductService, http, backend) => {
     let products = [{name: "Apple"}, {name: "Orange"}];
     backend.connections.subscribe(c => c.mockRespond(new Response(new ResponseOptions(
-      {body: JSON.stringify(products)}
+      {body: JSON.stringify(products), status: 200}
     ))));
     service.getProducts().subscribe(products =>
       expect(products).toEqual(products)
     );
+  }));
+
+  it('should throw when getProduct() gets a bed response',
+      inject([ProductService, Http, MockBackend], (service: ProductService, http, backend) => {
+    let products = [{name: "Apple"}, {name: "Orange"}];
+    backend.connections.subscribe(c => c.mockRespond(new Response(new ResponseOptions(
+      {body: JSON.stringify(products), status: 422}
+    ))));
+    expect(() => service.getProducts().subscribe()).toThrowError('Bad response status: 422');
   }));
 });
